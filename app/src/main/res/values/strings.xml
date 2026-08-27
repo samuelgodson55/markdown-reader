@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Markdown Reader</string>
+    <string name="open_file">Open Markdown File</string>
+    <string name="empty_state">No file open.\nTap "Open Markdown File" to pick a .md file.</string>
+    <string name="toc_button_description">Table of contents</string>
+    <string name="toc_title">Contents</string>
+    <string name="toc_top">Top of document</string>
+    <string name="toc_empty">This file has no headings to jump to.</string>
+    <string name="theme_button_description">Theme</string>
+    <string name="theme_option_system">System default</string>
+    <string name="theme_option_light">Light</string>
+    <string name="theme_option_dark">Dark</string>
+</resources>
