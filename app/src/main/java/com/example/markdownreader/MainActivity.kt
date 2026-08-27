@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private var tocItems: List<TocItem> = emptyList()
     private var anchorMap: Map<String, TocItem> = emptyMap()
+    private var normalizedAnchorMap: Map<String, TocItem> = emptyMap()
     private var currentFileUri: Uri? = null
 
     private val openDocumentLauncher =
@@ -211,6 +212,7 @@ class MainActivity : AppCompatActivity() {
 
             tocItems = extractHeadings(markdownText)
             anchorMap = buildAnchorMap(tocItems)
+            normalizedAnchorMap = buildNormalizedAnchorMap(tocItems)
 
             tryPersistUriPermission(uri)
             saveLastFile(uri)
@@ -273,8 +275,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handleLinkClick(link: String) {
         if (link.startsWith("#")) {
-            val fragment = Uri.decode(link.removePrefix("#")).trim().lowercase()
-            val target = anchorMap[fragment]
+            val fragment = Uri.decode(link.removePrefix("#")).trim()
+            // Try an exact GitHub-style slug match first; TOC-generator tools and GitHub's
+            // own renderer don't always agree on exactly how dashes/emoji/punctuation get
+            // collapsed, so fall back to comparing letters-and-digits-only, which sidesteps
+            // that disagreement entirely.
+            val target = anchorMap[fragment.lowercase()]
+                ?: normalizedAnchorMap[normalizeForMatch(fragment)]
             if (target != null && target.renderedCharIndex >= 0) {
                 scrollToHeading(target)
             } else {
@@ -346,6 +353,27 @@ class MainActivity : AppCompatActivity() {
         val stripped = lower.replace(Regex("[^\\p{L}\\p{N}\\s_-]"), "")
         return stripped.trim().replace(Regex("\\s+"), "-")
     }
+
+    /**
+     * A much looser fallback map: keys are each heading's title reduced to nothing but
+     * lowercase letters and digits. This ignores every possible source of disagreement
+     * between how *we* slugify a heading and how the tool that generated the document's
+     * TOC did (dash style, emoji, punctuation) -- if the actual words match, the anchor
+     * resolves. First occurrence of a given normalized title wins.
+     */
+    private fun buildNormalizedAnchorMap(items: List<TocItem>): Map<String, TocItem> {
+        val map = LinkedHashMap<String, TocItem>()
+        for (item in items) {
+            val key = normalizeForMatch(item.title)
+            if (key.isNotEmpty() && !map.containsKey(key)) {
+                map[key] = item
+            }
+        }
+        return map
+    }
+
+    private fun normalizeForMatch(text: String): String =
+        text.lowercase().replace(Regex("[^\\p{L}\\p{N}]"), "")
 
     /**
      * Markwon strips heading markup (#, **, etc.) when it renders, so we find each heading's
