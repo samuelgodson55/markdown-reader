@@ -10,7 +10,6 @@ import android.provider.OpenableColumns
 import android.text.Spannable
 import android.text.TextUtils
 import android.text.format.DateUtils
-import android.text.method.LinkMovementMethod
 import android.text.style.BackgroundColorSpan
 import android.util.TypedValue
 import android.view.Gravity
@@ -157,11 +156,8 @@ class MainActivity : AppCompatActivity() {
             })
             .build()
 
-        // FIX: android:textIsSelectable="true" (needed so users can long-press-select and copy
-        // text) makes the TextView reset its movement method to one that only handles caret
-        // movement, silently swallowing taps on links. Explicitly installing LinkMovementMethod
-        // here restores link clicks while keeping text selection working.
-        tvMarkdownContent.movementMethod = LinkMovementMethod.getInstance()
+        // NOTE: link taps are handled directly by LinkAwareTextView.onTouchEvent (see that
+        // class for why assigning a MovementMethod here is not reliable enough on its own).
 
         applyFontScale(getSavedFontScale())
 
@@ -269,9 +265,6 @@ class MainActivity : AppCompatActivity() {
             val displayName = queryFileName(uri)
             tvFileName.text = displayName
             markwon.setMarkdown(tvMarkdownContent, markdownText)
-            // Reassert after every render, since a fresh setText is the moment this is most
-            // likely to matter.
-            tvMarkdownContent.movementMethod = LinkMovementMethod.getInstance()
 
             showContentState()
             clearSearch()
