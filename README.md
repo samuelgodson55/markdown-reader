@@ -21,9 +21,23 @@ accounts, no unnecessary permissions — just pick a file and read it.
   standard Android file picker — no storage permission needed)
 - Renders headings, bold/italic, lists, links, blockquotes, code blocks, tables,
   and strikethrough
+- **Working links** — tapping a link opens it in your browser, while text
+  selection (long-press to select/copy) still works too
+- **In-document navigation for `#anchor` links** — GitHub-style table-of-contents
+  links (`[Features](#features)`) jump straight to that heading inside the
+  app instead of trying to launch a browser
+- **Reopens where you left off** — the last file you had open, and your exact
+  scroll position, are remembered even after the app has been fully closed
 - **Jump to any heading at any time** — a floating "Contents" button (bottom
-  right) is available while reading. Tap it to see every heading in the file
-  and jump straight to it, or jump back to the top, without scrolling manually
+  right) is available while reading. Tap it to see every heading in the file,
+  with the section you're currently reading highlighted, and jump straight to
+  any of them or back to the top, without scrolling manually
+- **Reading progress bar** — a thin bar under the header fills up as you
+  scroll through the document
+- **Word count & estimated reading time** shown under the filename
+- **Reload** — re-reads the file from disk (handy if you're editing it
+  elsewhere) and **Share** — send the file to another app, both from the
+  toolbar
 - **Day/night mode** — matches your phone's system light/dark setting
   automatically, or you can override it from the theme icon in the top bar
   (System default / Light / Dark). Your choice is remembered.
@@ -163,15 +177,21 @@ Once you have an `app-debug.apk` file (from any option above):
 
 1. Open the app and tap **Open Markdown File**.
 2. Pick any `.md` file from your device or a connected cloud storage app.
-3. The rendered file appears immediately, scrollable.
+3. The rendered file appears immediately, scrollable. Links are tappable, and
+   you can still long-press to select and copy text.
 4. While reading, tap the round **Contents** button floating at the bottom
    right to open a list of every heading in the document (indented by heading
-   level). Tap any heading — or "Top of document" — to jump straight there.
-5. You can also long-press a `.md` file in a file manager app and choose
+   level, with your current section highlighted). Tap any heading — or "Top
+   of document" — to jump straight there.
+5. Use the **refresh** icon in the top bar to re-read the file from disk, and
+   the **share** icon to send it to another app.
+6. You can also long-press a `.md` file in a file manager app and choose
    **"Open with → Markdown Reader"** once it's installed.
-6. Tap the sun/moon icon in the top bar to switch between **System default**,
+7. Tap the sun/moon icon in the top bar to switch between **System default**,
    **Light**, and **Dark** — it applies instantly and is remembered next time
    you open the app.
+8. Close the app whenever — next time you open it, it reopens the same file
+   at the same scroll position automatically.
 
 > The Contents button only appears for files that actually contain Markdown
 > headings (lines starting with `#`, `##`, etc.).

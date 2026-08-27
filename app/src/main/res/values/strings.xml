@@ -11,4 +11,15 @@
     <string name="theme_option_system">System default</string>
     <string name="theme_option_light">Light</string>
     <string name="theme_option_dark">Dark</string>
+    <string name="reload_description">Reload file</string>
+    <string name="share_description">Share file</string>
+    <string name="share_file_chooser_title">Share Markdown file</string>
+    <string name="reload_no_file">No file open</string>
+    <string name="share_no_file">No file open</string>
+    <string name="share_failed">Couldn\'t share this file</string>
+    <string name="link_no_app">No app found to open this link</string>
+    <string name="link_open_failed">Couldn\'t open this link</string>
+    <string name="link_section_not_found">That section couldn\'t be found in this document</string>
+    <string name="toc_current_section">Currently reading</string>
+    <string name="meta_format">%1$d words · %2$d min read</string>
 </resources>
