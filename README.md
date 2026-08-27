@@ -21,27 +21,29 @@ accounts, no unnecessary permissions — just pick a file and read it.
   standard Android file picker — no storage permission needed)
 - Renders headings, bold/italic, lists, links, blockquotes, code blocks, tables,
   and strikethrough
-- **Working links** — tapping a link opens it in your browser, while text
-  selection (long-press to select/copy) still works too
-- **In-document navigation for `#anchor` links** — GitHub-style table-of-contents
-  links (`[Features](#features)`) jump straight to that heading inside the
-  app instead of trying to launch a browser
+- **Links actually work** — including in-document `[Section](#some-heading)`
+  table-of-contents links, which now scroll to that heading instead of doing
+  nothing (or, previously, crashing the app — see Notes below)
 - **Reopens where you left off** — the last file you had open, and your exact
-  scroll position, are remembered even after the app has been fully closed
+  scroll position in it, are restored automatically the next time you launch
+  the app. No more re-browsing for the same file every time.
+- **Recent files** — the last 8 files you've opened are one tap away from the
+  empty-state screen or the overflow menu, each removable individually
+- **In-document search** — the search icon in the top bar finds every match in
+  the current file, highlights them, and lets you jump between them
+- **Adjustable text size** — Increase / Decrease / Reset from the overflow menu
+- **Reading progress bar** — a thin bar under the top bar fills up as you scroll
 - **Jump to any heading at any time** — a floating "Contents" button (bottom
-  right) is available while reading. Tap it to see every heading in the file,
-  with the section you're currently reading highlighted, and jump straight to
-  any of them or back to the top, without scrolling manually
-- **Reading progress bar** — a thin bar under the header fills up as you
-  scroll through the document
-- **Word count & estimated reading time** shown under the filename
-- **Reload** — re-reads the file from disk (handy if you're editing it
-  elsewhere) and **Share** — send the file to another app, both from the
-  toolbar
+  right) is available while reading. Tap it to see every heading in the file
+  (filterable, for long files) and jump straight to it, or jump back to the
+  top. The heading you're currently reading is highlighted.
+- **Reload & Share** — from the overflow menu, re-read the file from disk
+  (useful if it changed externally) or share it to another app
 - **Day/night mode** — matches your phone's system light/dark setting
   automatically, or you can override it from the theme icon in the top bar
   (System default / Light / Dark). Your choice is remembered.
-- Can also be opened directly from a file manager via "Open with → Markdown Reader"
+- Can also be opened directly from a file manager via "Open with → Markdown Reader",
+  including while the app is already running
 - Single screen, minimal UI, small APK (~2–3 MB)
 
 Built with Kotlin + [Markwon](https://noties.io/Markwon/) (a lightweight,
@@ -175,23 +177,25 @@ Once you have an `app-debug.apk` file (from any option above):
 
 ## Using the app
 
-1. Open the app and tap **Open Markdown File**.
+1. Open the app and tap **Open Markdown File** (or pick one from **Recent
+   files** if you've opened it before).
 2. Pick any `.md` file from your device or a connected cloud storage app.
-3. The rendered file appears immediately, scrollable. Links are tappable, and
-   you can still long-press to select and copy text.
+3. The rendered file appears immediately, scrollable. Next time you open the
+   app, this same file reopens automatically at the same scroll position.
 4. While reading, tap the round **Contents** button floating at the bottom
    right to open a list of every heading in the document (indented by heading
-   level, with your current section highlighted). Tap any heading — or "Top
-   of document" — to jump straight there.
-5. Use the **refresh** icon in the top bar to re-read the file from disk, and
-   the **share** icon to send it to another app.
-6. You can also long-press a `.md` file in a file manager app and choose
-   **"Open with → Markdown Reader"** once it's installed.
-7. Tap the sun/moon icon in the top bar to switch between **System default**,
+   level, filterable for long files). Tap any heading — or "Top of document" —
+   to jump straight there. The section you're currently reading is marked.
+5. Tap the magnifying glass in the top bar to search the current file; use the
+   up/down arrows to step through matches.
+6. Tap the **⋮** overflow menu for **Recent files**, **Reload file**, **Share
+   file**, and **Text size** (Increase / Decrease / Reset).
+7. You can also long-press a `.md` file in a file manager app and choose
+   **"Open with → Markdown Reader"** once it's installed — including while
+   the app is already open.
+8. Tap the sun/moon icon in the top bar to switch between **System default**,
    **Light**, and **Dark** — it applies instantly and is remembered next time
    you open the app.
-8. Close the app whenever — next time you open it, it reopens the same file
-   at the same scroll position automatically.
 
 > The Contents button only appears for files that actually contain Markdown
 > headings (lines starting with `#`, `##`, etc.).
@@ -226,3 +230,13 @@ MarkdownReader/
   own device, but not intended for distribution on the Play Store.
 - To customize the app icon or name, edit `app/src/main/res/values/strings.xml`
   (name) or add your own image to `res/mipmap` folders (icon).
+- **What was actually wrong with links before:** the content `TextView` had
+  `android:textIsSelectable="true"` (so you could long-press to copy text),
+  which silently replaces its movement method with one that only handles the
+  text cursor — so taps on links were never delivered to them at all. On top
+  of that, in-document `[Section](#anchor)` links (like the ones in a
+  generated table of contents) aren't real URLs, and Markwon's default link
+  handling hands every link straight to `startActivity(ACTION_VIEW, ...)`,
+  which would have crashed the app on a `#anchor` link once tap delivery was
+  fixed. Both are addressed now: link taps are delivered correctly, and
+  `#anchor` links resolve to an in-app scroll instead of an external intent.

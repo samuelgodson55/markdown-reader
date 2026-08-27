@@ -7,6 +7,7 @@
     android:paddingBottom="16dp">
 
     <TextView
+        android:id="@+id/sheetTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
@@ -19,6 +20,23 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider" />
+
+    <EditText
+        android:id="@+id/etSheetFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:hint="@string/toc_filter_hint"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_secondary"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="match_parent"

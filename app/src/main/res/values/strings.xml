@@ -7,19 +7,35 @@
     <string name="toc_title">Contents</string>
     <string name="toc_top">Top of document</string>
     <string name="toc_empty">This file has no headings to jump to.</string>
+    <string name="toc_filter_hint">Filter headings…</string>
     <string name="theme_button_description">Theme</string>
     <string name="theme_option_system">System default</string>
     <string name="theme_option_light">Light</string>
     <string name="theme_option_dark">Dark</string>
-    <string name="reload_description">Reload file</string>
-    <string name="share_description">Share file</string>
-    <string name="share_file_chooser_title">Share Markdown file</string>
-    <string name="reload_no_file">No file open</string>
-    <string name="share_no_file">No file open</string>
-    <string name="share_failed">Couldn\'t share this file</string>
-    <string name="link_no_app">No app found to open this link</string>
-    <string name="link_open_failed">Couldn\'t open this link</string>
-    <string name="link_section_not_found">That section couldn\'t be found in this document</string>
-    <string name="toc_current_section">Currently reading</string>
-    <string name="meta_format">%1$d words · %2$d min read</string>
+
+    <string name="action_search">Search</string>
+    <string name="action_reload">Reload file</string>
+    <string name="action_share">Share file</string>
+    <string name="action_recent">Recent files</string>
+    <string name="action_text_size">Text size</string>
+    <string name="action_font_increase">Increase</string>
+    <string name="action_font_decrease">Decrease</string>
+    <string name="action_font_reset">Reset</string>
+
+    <string name="search_hint">Find in document…</string>
+    <string name="search_prev_description">Previous match</string>
+    <string name="search_next_description">Next match</string>
+    <string name="search_close_description">Close search</string>
+    <string name="search_no_matches">No matches</string>
+    <string name="search_match_count">%1$d / %2$d</string>
+
+    <string name="recent_files_title">Recent files</string>
+    <string name="recent_files_empty">No recent files yet.</string>
+    <string name="recent_remove_description">Remove from recent files</string>
+
+    <string name="no_file_open">No file open</string>
+    <string name="share_chooser_title">Share Markdown file</string>
+    <string name="file_unavailable">That file is no longer available</string>
+    <string name="link_section_not_found">Couldn\'t find that section</string>
+    <string name="link_cannot_open">Couldn\'t open that link</string>
 </resources>
